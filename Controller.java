@@ -14,7 +14,7 @@ public class Controller {
     HBox hbox_1 = new HBox(10);
     HBox hbox_2 = new HBox(10);
     HBox hbox_3 = new HBox(10);
-
+    HBox hbox_4 = new HBox(10);
     @FXML
     private ScrollPane scrollPane;
 
@@ -30,28 +30,34 @@ public class Controller {
     Label label_item_3_price = new Label("$15");
     ImageView imageview_item_3;
 
+    Label label_item_4       = new Label("Spoon");
+    Label label_item_4_price = new Label("2$");
+    ImageView imageview_item_4;
+
     Spinner<Integer> spinner_item_1 = new Spinner<>(0, 10, 0);
     Spinner<Integer> spinner_item_2 = new Spinner<>(0, 10, 0);
     Spinner<Integer> spinner_item_3 = new Spinner<>(0, 10, 0);
-
+    Spinner<Integer> spinner_item_4 = new Spinner<>(0, 10, 0);
     @FXML
     void initialize() {
         // --- Load images safely (both items) ---
         imageview_item_1 = loadImage("Asset/bowl.jpg");
         imageview_item_2 = loadImage("Asset/cutting board.jpg");
         imageview_item_3 = loadImage("Asset/KNIFT.jpg");
-
+        imageview_item_4 = loadImage("Asset/spoon.jpg");
         // --- Size images ---
         setImageSize(imageview_item_1, 95, 88);
         setImageSize(imageview_item_2, 95, 88);
         setImageSize(imageview_item_3, 95, 88);
+        setImageSize(imageview_item_4, 95, 88);
 
         // --- Build rows ---
         hbox_1.getChildren().addAll(imageview_item_1, label_item_1, label_item_1_price, spinner_item_1);
         hbox_2.getChildren().addAll(imageview_item_2, label_item_2, label_item_2_price, spinner_item_2);
         hbox_3.getChildren().addAll(imageview_item_3, label_item_3, label_item_3_price, spinner_item_3);
+        hbox_1.getChildren().addAll(imageview_item_4, label_item_4, label_item_4_price, spinner_item_4);
         // --- Add rows to VBox, set as ScrollPane content ---
-        vbox.getChildren().addAll(hbox_1, hbox_2, hbox_3);
+        vbox.getChildren().addAll(hbox_1, hbox_2, hbox_3, hbox_4);
         scrollPane.setContent(vbox);
     }
 
