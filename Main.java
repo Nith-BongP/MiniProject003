@@ -14,6 +14,8 @@ public class Main extends Application {
 
         Scene scene = new Scene(loader.load());
 
+        stage.getIcons().add(new javafx.scene.image.Image(getClass().getResourceAsStream("Asset/Logo-GTRSC-png.png")));
+
         stage.setTitle("Mini Project 3 - Shopping System");
         stage.setScene(scene);
 

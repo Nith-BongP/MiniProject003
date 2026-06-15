@@ -15,10 +15,10 @@ public class Controller {
     @FXML
     private Label totalLabel;
 
-    private final int BOWL_PRICE = 5;
-    private final int BOARD_PRICE = 10;
-    private final int SPOON_PRICE = 2;
-    private final int KEV_PRICE = 15;
+    private final int BOWL_PRICE = 2;
+    private final int BOARD_PRICE = 5;
+    private final double SPOON_PRICE = 0.25;
+    private final double KEV_PRICE = 0.75;
 
 
 
@@ -41,10 +41,10 @@ public class Controller {
         mainBox.setPadding(new Insets(15));
 
         mainBox.getChildren().addAll(
-                createRow("($5)", "Asset/bowl.jpg", spinnerBowl),
-                createRow("($10)", "Asset/cutting board.jpg", spinnerBoard),
-                createRow(" ($2)", "Asset/spoon.jpg", spinnerSpoon),
-                createRow("($15)", "Asset/kev.jpg", spinnerkev)
+                createRow("($2)", "Asset/bowl.jpg", spinnerBowl),
+                createRow("($5)", "Asset/cutting board.jpg", spinnerBoard),
+                createRow("($0.25)", "Asset/spoon.jpg", spinnerSpoon),
+                createRow("($0.75)", "Asset/kev.jpg", spinnerkev)
         );
 
         scrollPane.setContent(mainBox);
@@ -58,12 +58,20 @@ public class Controller {
 
         Label label = new Label(name);
 
-        ImageView image = new ImageView(
-                new Image(getClass().getResource(imgPath).toExternalForm())
-        );
-        image.setFitWidth(150);
-        image.setFitHeight(150);
-        image.setPreserveRatio(true);
+        ImageView image = new ImageView();
+        try {
+            String resourceUrl = getClass().getResource(imgPath).toExternalForm();
+            image = new ImageView(new Image(resourceUrl));
+            image.setFitWidth(100);
+            image.setFitHeight(100);
+            image.setPreserveRatio(true);
+        } catch (NullPointerException | IllegalArgumentException e) {
+            // Handle missing image file
+            System.out.println("Warning: Could not load image - " + imgPath);
+            image.setStyle("-fx-background-color: lightgray;");
+            image.setFitWidth(100);
+            image.setFitHeight(100);
+        }
 
         row.getChildren().addAll(label, image, spinner);
 
@@ -78,7 +86,7 @@ public class Controller {
         int spoon = spinnerSpoon.getValue();
         int kev = spinnerkev.getValue();
 
-        int total = (bowl * BOWL_PRICE) + (board * BOARD_PRICE) + (spoon * SPOON_PRICE) + (kev * KEV_PRICE) ;
+        double total = (bowl * BOWL_PRICE) + (board * BOARD_PRICE) + (spoon * SPOON_PRICE) + (kev * KEV_PRICE) ;
 
         System.out.println("===== ORDER =====");
         System.out.println("Bowl: " + bowl);
