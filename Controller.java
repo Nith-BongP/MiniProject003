@@ -1,7 +1,7 @@
 import javafx.fxml.FXML;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.control.Spinner;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
@@ -9,73 +9,86 @@ import javafx.scene.layout.VBox;
 
 public class Controller {
 
-    VBox vbox = new VBox(10); // 10px spacing between rows
-
-    HBox hbox_1 = new HBox(10);
-    HBox hbox_2 = new HBox(10);
-    HBox hbox_3 = new HBox(10);
-    HBox hbox_4 = new HBox(10);
     @FXML
     private ScrollPane scrollPane;
 
-    Label label_item_1       = new Label("Bowl");
-    Label label_item_1_price = new Label("$5");
-    ImageView imageview_item_1;
-
-    Label label_item_2       = new Label("Cutting Board");
-    Label label_item_2_price = new Label("$10");
-    ImageView imageview_item_2;
-
-    Label label_item_3       = new Label("Knife");
-    Label label_item_3_price = new Label("$15");
-    ImageView imageview_item_3;
-
-    Label label_item_4       = new Label("Spoon");
-    Label label_item_4_price = new Label("2$");
-    ImageView imageview_item_4;
-
-    Spinner<Integer> spinner_item_1 = new Spinner<>(0, 10, 0);
-    Spinner<Integer> spinner_item_2 = new Spinner<>(0, 10, 0);
-    Spinner<Integer> spinner_item_3 = new Spinner<>(0, 10, 0);
-    Spinner<Integer> spinner_item_4 = new Spinner<>(0, 10, 0);
     @FXML
-    void initialize() {
-        // --- Load images safely (both items) ---
-        imageview_item_1 = loadImage("Asset/bowl.jpg");
-        imageview_item_2 = loadImage("Asset/cutting board.jpg");
-        imageview_item_3 = loadImage("Asset/KNIFT.jpg");
-        imageview_item_4 = loadImage("Asset/spoon.jpg");
-        // --- Size images ---
-        setImageSize(imageview_item_1, 95, 88);
-        setImageSize(imageview_item_2, 95, 88);
-        setImageSize(imageview_item_3, 95, 88);
-        setImageSize(imageview_item_4, 95, 88);
+    private Label totalLabel;
 
-        // --- Build rows ---
-        hbox_1.getChildren().addAll(imageview_item_1, label_item_1, label_item_1_price, spinner_item_1);
-        hbox_2.getChildren().addAll(imageview_item_2, label_item_2, label_item_2_price, spinner_item_2);
-        hbox_3.getChildren().addAll(imageview_item_3, label_item_3, label_item_3_price, spinner_item_3);
-        hbox_1.getChildren().addAll(imageview_item_4, label_item_4, label_item_4_price, spinner_item_4);
-        // --- Add rows to VBox, set as ScrollPane content ---
-        vbox.getChildren().addAll(hbox_1, hbox_2, hbox_3, hbox_4);
-        scrollPane.setContent(vbox);
+    private final int BOWL_PRICE = 5;
+    private final int BOARD_PRICE = 10;
+    private final int SPOON_PRICE = 2;
+    private final int KEV_PRICE = 15;
+
+
+
+
+    private Spinner<Integer> spinnerBowl;
+    private Spinner<Integer> spinnerBoard;
+    private Spinner<Integer> spinnerSpoon;
+    private Spinner<Integer> spinnerkev;
+
+
+    @FXML
+    public void initialize() {
+
+        spinnerBowl = new Spinner<>(0, 20, 0);
+        spinnerBoard = new Spinner<>(0, 20, 0);
+        spinnerSpoon = new Spinner<>(0, 20, 0);
+        spinnerkev= new Spinner<>(0, 20, 0);
+
+        VBox mainBox = new VBox(20);
+        mainBox.setPadding(new Insets(15));
+
+        mainBox.getChildren().addAll(
+                createRow("($5)", "Asset/bowl.jpg", spinnerBowl),
+                createRow("($10)", "Asset/cutting board.jpg", spinnerBoard),
+                createRow(" ($2)", "Asset/spoon.jpg", spinnerSpoon),
+                createRow("($15)", "Asset/kev.jpg", spinnerkev)
+        );
+
+        scrollPane.setContent(mainBox);
+        scrollPane.setFitToWidth(true);
     }
 
-    // Helper: load image or fall back to empty ImageView
-    private ImageView loadImage(String path) {
-        try {
-            String url = getClass().getResource(path).toExternalForm();
-            return new ImageView(new Image(url)); // wrap in Image for proper scaling
-        } catch (Exception e) {
-            System.out.println("Warning: Image not found - " + path);
-            return new ImageView(); // safe fallback — never null
+    private HBox createRow(String name, String imgPath, Spinner<Integer> spinner) {
+
+        HBox row = new HBox(20);
+        row.setAlignment(Pos.CENTER_LEFT);
+
+        Label label = new Label(name);
+
+        ImageView image = new ImageView(
+                new Image(getClass().getResource(imgPath).toExternalForm())
+        );
+        image.setFitWidth(150);
+        image.setFitHeight(150);
+        image.setPreserveRatio(true);
+
+        row.getChildren().addAll(label, image, spinner);
+
+        return row;
+    }
+
+    @FXML
+    private void submitOrder() {
+
+        int bowl = spinnerBowl.getValue();
+        int board = spinnerBoard.getValue();
+        int spoon = spinnerSpoon.getValue();
+        int kev = spinnerkev.getValue();
+
+        int total = (bowl * BOWL_PRICE) + (board * BOARD_PRICE) + (spoon * SPOON_PRICE) + (kev * KEV_PRICE) ;
+
+        System.out.println("===== ORDER =====");
+        System.out.println("Bowl: " + bowl);
+        System.out.println("Board: " + board);
+        System.out.println("Spoon: " + spoon);
+        System.out.println("Kev: " + kev);
+        System.out.println("TOTAL = $" + total);
+
+        if (totalLabel != null) {
+            totalLabel.setText("Total: $" + total);
         }
-    }
-
-    // Helper: set fit size + preserve ratio
-    private void setImageSize(ImageView iv, double width, double height) {
-        iv.setFitWidth(width);
-        iv.setFitHeight(height);
-        iv.setPreserveRatio(true);
     }
 }

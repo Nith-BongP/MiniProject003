@@ -8,7 +8,6 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="522.0" prefWidth="540.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
    <children>
       <ImageView fitHeight="88.0" fitWidth="95.0" layoutX="14.0" layoutY="13.0" pickOnBounds="true" preserveRatio="true">
@@ -31,12 +30,12 @@
             <Font size="14.0" />
          </font>
       </Label>
-      <Label fx:id="total" layoutX="356.0" layoutY="470.0" prefHeight="20.0" prefWidth="169.0" text="Total:">
+      <Label fx:id="totalLabel" layoutX="356.0" layoutY="470.0" prefHeight="20.0" prefWidth="169.0" text="Total:">
          <font>
             <Font size="14.0" />
          </font>
       </Label>
-      <Button fx:id="button_submit" layoutX="217.0" layoutY="462.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="106.0" text="Submit" />
+      <Button fx:id="submitOrder" defaultButton="true" layoutX="217.0" layoutY="462.0" mnemonicParsing="false" onAction="#submitOrder" prefHeight="35.0" prefWidth="106.0" text="Submit" />
       <ScrollPane fx:id="scrollPane" layoutX="31.0" layoutY="121.0" prefHeight="322.0" prefWidth="477.0">
         <content>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="200.0" prefWidth="200.0" />
