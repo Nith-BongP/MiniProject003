@@ -20,14 +20,10 @@ public class Controller {
     private final double SPOON_PRICE = 0.25;
     private final double KEV_PRICE = 0.75;
 
-
-
-
     private Spinner<Integer> spinnerBowl;
     private Spinner<Integer> spinnerBoard;
     private Spinner<Integer> spinnerSpoon;
     private Spinner<Integer> spinnerkev;
-
 
     @FXML
     public void initialize() {
